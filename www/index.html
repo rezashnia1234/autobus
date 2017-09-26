@@ -111,7 +111,10 @@ input[type=email], input[type=password] {
 		function StartScan() {
 		   cordova.plugins.barcodeScanner.scan(
 				function (result) {
-					add_user(result.text);
+					if(result.text!="")
+						add_user(result.text);
+					else
+						modal.hide({animation: "fade"});
 				},
 				function (error) {
 					$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>خطا در اسکن کارت ، لطفا با پشتیبانی تماس بگیرید.</span><br/>' + error);
@@ -144,9 +147,9 @@ input[type=email], input[type=password] {
 			
 			
 			if (page.id === 'home') {
+					/*
 					$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال آماده سازی...</span>');
 					modal.show({animation: "fade"});
-					
 					check_server(function(text){
 						console.log(text);
 						if(text!="1")
@@ -155,7 +158,7 @@ input[type=email], input[type=password] {
 							modal.show({animation: "fade"});
 						}
 					});
-
+					*/
 					page.querySelector('#goto-active_user-button').onclick = function() {
 						//document.querySelector('#myNavigator').pushPage('active_user.html', {data: {title: 'home'}});
 						check_server(function(text){
@@ -232,7 +235,7 @@ input[type=email], input[type=password] {
 			//var networkState = navigator.connection.type;
 			if ( false && networkState == Connection.NONE) {
 				navigator.notification.alert(
-					'شما برای مشاهده این صفحه نیاز به اینترنت دارید',  // message
+					'لطفا به شبکه WIFI اتوبوس متصل شوید.',  // message
 					alertDismissed,			// callback
 					'اخطار',				// title
 					'تائید'					// buttonName
