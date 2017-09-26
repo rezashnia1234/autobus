@@ -7,13 +7,37 @@
 		};
 	}
 	
-	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-		return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	function favorite() {
+		temp_array = JSON.parse(window.localStorage.getItem('favorite_URL'));
+		
+		if ($("#favoriteBTN").hasClass("added")) {
+			removedItems = temp_array.remove(getParameterByName("url"), true);
+			window.localStorage.setItem('favorite_URL',JSON.stringify(temp_array));
+			$('#favoriteBTN').removeClass("added");
+		}
+		else{
+			temp_array.push(getParameterByName("url"));
+			window.localStorage.setItem(getParameterByName("url"),$('#page_title').html());
+			window.localStorage.setItem('favorite_URL',JSON.stringify(temp_array));
+			$('#favoriteBTN').addClass("added");
+		}
 	}
-
+	
+	$( document ).ready(function() {
+		if(window.localStorage.getItem('favorite_URL') == null)
+		{
+			window.localStorage.setItem('favorite_URL',JSON.stringify(["786"]));
+		}
+		else
+		{
+			temp_array = JSON.parse(window.localStorage.getItem('favorite_URL'));
+			if((jQuery.inArray(getParameterByName("url"),temp_array) != -1))
+			{
+				$('#favoriteBTN').addClass("added");
+			}
+		}
+	});
+	
 	function go_back() {
 		if(window.sessionStorage.getItem('go_to_first')=="true")
 		{
@@ -37,22 +61,6 @@
 		return false;
 	}
 	
-	function temp_function() {
-		// do something
-	}
-	
-	function goto_home() {
-		window.location.href = "index.html";
-	}
-	function goto_register() {
-		window.location.href = "register.html";
-	}
-	$(document).ready(function() {
-		setTimeout(function(){
-			$('img').on('dragstart', function(event) { event.preventDefault();				});
-			$('a').on('dragstart', function(event) { event.preventDefault();				});
-		}, 600);
-	});
 	
 	
 	
