@@ -156,6 +156,7 @@ input[type=email], input[type=password] {
 						{
 							$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
 							modal.show({animation: "fade"});
+							setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
 						}
 					});
 					*/
@@ -167,6 +168,7 @@ input[type=email], input[type=password] {
 							{
 								$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
 								modal.show({animation: "fade"});
+								setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
 							}
 							else
 								StartScan();
@@ -190,6 +192,7 @@ input[type=email], input[type=password] {
 					page.querySelector('#emergency-button').onclick = function() {
 						$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال بارگذاری...</span>');
 						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
 						
 						//server_url
 						/*
@@ -228,6 +231,7 @@ input[type=email], input[type=password] {
 					error: function(jqXHR, exception) {
 						$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
 						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
 					},
 			});
 		}
@@ -282,6 +286,7 @@ input[type=email], input[type=password] {
 						error: function(jqXHR, exception) {
 							$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
 							modal.show({animation: "fade"});
+							setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
 							/*
 							if (jqXHR.status === 0) {
 								$('#show_result').html('در اتصال شما به اینترنت مشکلی به وجود آمده است ، امکان نمایش محتوا وجود ندارد');
