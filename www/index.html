@@ -169,10 +169,7 @@ input[type=email], input[type=password] {
 								StartScan();
 						});
 					};
-					page.querySelector('#goto-setting-button').onclick = function() {
-						$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
-						modal.show({animation: "fade"});
-						
+					page.querySelector('#goto-setting-button').onclick = function() {					
 						document.querySelector('#myNavigator').pushPage('setting.html', {animation: "slid"});
 					};
 					page.querySelector('#goto-contact-button').onclick = function() {
