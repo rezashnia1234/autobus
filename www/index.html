@@ -17,7 +17,9 @@
 	
 <style>
 .rtl{direction:rtl !important;}
-div,button,.ripple,.button--material,.button--large--cta,.button{
+.left-to-right-text,.left-to-right-text *{text-align:left !important;}
+.center-text,.center-text *{text-align:center !important;}
+div,button,.ripple,.button--material,.button--large--cta,.button,input{
 	font-family:"iranyekan",Tahoma !important;
 	font-size:14px;
 }
@@ -111,10 +113,34 @@ input[type=email], input[type=password] {
 		function StartScan() {
 		   cordova.plugins.barcodeScanner.scan(
 				function (result) {
-					if(result.text!="")
+					if(result.text!="" && $.isNumeric(result.text))
 						add_user(result.text);
 					else
 						modal.hide({animation: "fade"});
+				},
+				function (error) {
+					$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>خطا در اسکن کارت ، لطفا با پشتیبانی تماس بگیرید.</span><br/>' + error);
+					modal.show({animation: "fade"});
+				},
+				{
+					preferFrontCamera : false, // iOS and Android
+					showFlipCameraButton : false, // iOS and Android
+					showTorchButton : true, // iOS and Android
+					torchOn: false, // Android, launch with the torch switched on (if available)
+					prompt : "Place a barcode inside the scan area", // Android
+					resultDisplayDuration: 0, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+					//formats : "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+					//orientation : "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+					disableAnimations : false, // iOS
+					disableSuccessBeep: false // iOS
+				}
+		   );
+		}
+		function StartScan_box() {
+		   cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					if(result.text!="")
+						window.localStorage.setItem('server_udid',result.text);
 				},
 				function (error) {
 					$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>خطا در اسکن کارت ، لطفا با پشتیبانی تماس بگیرید.</span><br/>' + error);
@@ -148,8 +174,73 @@ input[type=email], input[type=password] {
 				});
 			}
 		};
+		function show_dialog_select_hours() {
+			var dialog = document.getElementById('dialog-select-hours-alert');
+			if (dialog) {
+				$("#choose-change-hours").val(window.localStorage.getItem('hours'));
+				dialog.show();
+			}
+			else {
+				ons.createDialog('dialog-select-hours.html')
+					.then(function (dialog) {
+					$("#choose-change-hours").val(window.localStorage.getItem('hours'));
+					dialog.show();
+				});
+			}
+		};
+		function show_dialog_enter_emergency_code(text) {
+			var dialog = document.getElementById('dialog-enter_emergency_code');
+			if (dialog) {
+				$('#sever-side-emergency-code').html(text);
+				dialog.show();
+			}
+			else {
+				ons.createDialog('dialog-enter_emergency_code.html')
+					.then(function (dialog) {
+					$('#sever-side-emergency-code').html(text);
+					dialog.show();
+				});
+			}
+		};
 		function hideDialog(id) {
 			document.getElementById(id).hide();
+		};
+		function editSelects_change_hours(){
+			console.log($("#choose-change-hours").val());
+			window.localStorage.setItem('hours',$("#choose-change-hours").val());
+		};
+		function submit_emergency_code() {
+			if($('input[name=enter_emergency_code]').val()!="")
+			{
+				console.log($('input[name=enter_emergency_code]').val());
+				window.localStorage.setItem('emergency_answer',$('input[name=enter_emergency_code]').val());
+				
+				$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال آماده سازی...</span>');
+				modal.show({animation: "fade"});
+				
+				emergency_submit_answer(function(text){
+					console.log(text);
+					if(text!="1")
+					{
+						document.getElementById('dialog-enter_emergency_code').hide();
+						$('#modal-text').html('<ons-icon icon="fa-minus-circle" size="28px"></ons-icon> <span>خطا در فعال سازی حالت فوق العاده ،<br> لطفا با پشتیبانی تماس بگیرید</span><hr>' + text);
+						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 3000);
+					}
+					else
+					{
+						document.getElementById('dialog-enter_emergency_code').hide();
+						$('#modal-text').html('<ons-icon icon="fa-check" size="28px"></ons-icon> <span>حالت فوق العاده با موفقیت فعال شد.</span>');
+						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 3000);
+					}
+				});
+			}
+			else
+			{
+				document.getElementById('dialog-enter_emergency_code').hide();
+				modal.show({animation: "fade"});
+			}
 		};
 	</script>
 	<!-- App -->
@@ -193,6 +284,9 @@ input[type=email], input[type=password] {
 							}
 							else
 							{
+								$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال آماده سازی...</span>');
+								modal.show({animation: "fade"});
+
 								check_server(function(text){
 									console.log(text);
 									if(text!="1")
@@ -215,31 +309,64 @@ input[type=email], input[type=password] {
 					};
 			} else if (page.id === 'setting') {
 					//page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+					page.querySelector('#goto-scan_box-button').onclick = function() {
+						StartScan_box();
+					};
+					page.querySelector('#goto-get_hours-button').onclick = function() {
+						show_dialog_select_hours();
+					};
+					page.querySelector('#goto-enter_emergency_code-button').onclick = function() {
+						if(window.localStorage.getItem('server_udid') == null)
+						{
+							fromTemplate('لطفا قبل از هر کاری با مراجعه به بخش تنظیمات، بارکد موجود بر روی باکس همراه فیلم را اسکن نمایید.');
+						}
+						else
+						{
+							if(window.localStorage.getItem('hours') == null)
+							{
+								fromTemplate('لطفا با مراجعه به بخش تنظیمات، تعداد ساعت مورد نظر برای ایجاد دسترسی به آرشیو فیلم را مشخص نمایید.');
+							}
+							else
+							{
+								$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال آماده سازی...</span>');
+								modal.show({animation: "fade"});
+								
+								check_server(function(text){
+									console.log(text);
+									if(text!="1")
+									{
+										$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
+										modal.show({animation: "fade"});
+										setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+									}
+									else
+									{
+										emergency_get_number(function(text){
+											console.log(text);
+											if(text!="" && $.isNumeric(text))
+											{
+												modal.hide({animation: "fade"});
+												show_dialog_enter_emergency_code(text);
+											}
+											else
+											{
+												$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
+												modal.show({animation: "fade"});
+												setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+											}
+										});
+									}
+								});
+							}
+						}
+					};
+					
 					page.querySelector('#return-button').onclick = function() {
 						document.querySelector('#myNavigator').pushPage('home.html', {data: {title: 'home'}});
 					};
 			} else if (page.id === 'contact') {
 					page.querySelector('#return-button').onclick = function() {
 						document.querySelector('#myNavigator').pushPage('home.html', {data: {title: 'home'}});
-					};
-					page.querySelector('#emergency-button').onclick = function() {
-						$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال بارگذاری...</span>');
-						modal.show({animation: "fade"});
-						setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
-						
-						//server_url
-						/*
-						navigator.notification.prompt(
-							'لطفا کدی که از پشتیبانی دریافت نموده اید را وارد نمایید.',	// message
-							onPrompt,						// callback to invoke
-							'ثبت اطلاعات',					// title
-							['تائید','لغو'],				// buttonLabels
-							''								// defaultText
-						);
-						function onPrompt(results) {
-
-						}
-						*/
 					};
 			}
 		});
@@ -264,9 +391,53 @@ input[type=email], input[type=password] {
 					},
 			});
 		}
+		function emergency_get_number(handle_check_server) {
+			$.ajax({
+					url: server_url,
+					type: "POST",
+					data: {
+						act: "emergency_get_number",
+						udid: $.md5(window.localStorage.getItem('server_udid')),
+					},
+					//async: true,
+					success : function(text)
+					{
+						modal.hide({animation: "fade"});
+						handle_check_server(text);
+					},
+					error: function(jqXHR, exception) {
+						$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
+						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+					},
+			});
+		}
+		function emergency_submit_answer(handle_check_server) {
+			$.ajax({
+					url: server_url,
+					type: "POST",
+					data: {
+						act: "emergency_apply",
+						emergency_answer: window.localStorage.getItem('emergency_answer'),
+						udid: $.md5(window.localStorage.getItem('server_udid')),
+					},
+					//async: true,
+					success : function(text)
+					{
+						modal.hide({animation: "fade"});
+						handle_check_server(text);
+					},
+					error: function(jqXHR, exception) {
+						$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
+						modal.show({animation: "fade"});
+						setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+					},
+			});
+		}
 		function add_user(scaned_data) {
 			//var networkState = navigator.connection.type;
 			if ( false && networkState == Connection.NONE) {
+				modal.hide({animation: "fade"});
 				navigator.notification.alert(
 					'لطفا به شبکه WIFI اتوبوس متصل شوید.',  // message
 					alertDismissed,			// callback
@@ -298,7 +469,7 @@ input[type=email], input[type=password] {
 						{
 							if(text!="1")
 							{
-								$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>خطا در فعال سازی کاربر جدید ،<br> لطفا با پشتیبانی تماس بگیرید</span><hr>' + text);
+								$('#modal-text').html('<ons-icon icon="fa-minus-circle" size="28px"></ons-icon> <span>خطا در فعال سازی کاربر جدید ،<br> لطفا با پشتیبانی تماس بگیرید</span><hr>' + text);
 								modal.show({animation: "fade"});
 							}
 							else
@@ -367,9 +538,12 @@ input[type=email], input[type=password] {
 				<div class="center" style="width: 100%;font-size:15px;direction: rtl;text-align: right;">تنظیمات</div>
 			</ons-toolbar>
 			<div class="login-form" >
-				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">اسکن بارکد بر روی باکس</ons-button>
-				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">تعیین تعداد ساعت مجاز</ons-button>
-				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">ورود کد</ons-button>
+				<ons-button id="goto-scan_box-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">اسکن بارکد بر روی باکس</ons-button>
+				<br/>
+				<ons-button id="goto-get_hours-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">تعیین تعداد ساعت مجاز</ons-button>
+				<br/>
+				<ons-button id="goto-enter_emergency_code-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">ورود کد</ons-button>
+				<br/>
 				<br/>
 				<ons-button id="return-button" modifier="large--cta"><ons-icon icon="fa-arrow-left" size="14px" fixed-width="true"></ons-icon> بازگشت</ons-button>
 			</div>
@@ -409,6 +583,64 @@ input[type=email], input[type=password] {
 			<div style="text-align: center; padding: 10px;">
 				<p id="dialog-text" class="rtl"><p>
 				<p><ons-button onclick="hideDialog('dialog-alert')">تائید</ons-button></p>
+			</div>
+		</ons-dialog>
+	</template>
+	<template id="dialog-select-hours.html">
+		<ons-dialog id="dialog-select-hours-alert">
+			<div style="text-align: center; padding: 10px;">
+				<p id="dialog-text" class="rtl">
+					<ons-select id="choose-change-hours" onchange="editSelects_change_hours()">
+						<option value="30">30</option>
+						<option value="29">29</option>
+						<option value="28">28</option>
+						<option value="27">27</option>
+						<option value="26">26</option>
+						<option value="25">25</option>
+						<option value="24">24</option>
+						<option value="23">23</option>
+						<option value="22">22</option>
+						<option value="21">21</option>
+						<option value="20">20</option>
+						<option value="19">19</option>
+						<option value="18">18</option>
+						<option value="17">17</option>
+						<option value="16">16</option>
+						<option value="15">15</option>
+						<option value="14">14</option>
+						<option value="13">13</option>
+						<option value="12">12</option>
+						<option value="11">11</option>
+						<option value="10">10</option>
+						<option value="9">9</option>
+						<option value="8">8</option>
+						<option value="7">7</option>
+						<option value="6">6</option>
+						<option value="5">5</option>
+						<option value="4">4</option>
+						<option value="3">3</option>
+						<option value="2">2</option>
+					</ons-select>
+				<p>
+				<p><ons-button onclick="hideDialog('dialog-select-hours-alert')">تائید</ons-button></p>
+			</div>
+		</ons-dialog>
+	</template>
+	<template id="dialog-enter_emergency_code.html">
+		<ons-dialog id="dialog-enter_emergency_code">
+			<div style="text-align: center; padding: 10px;">
+				<p id="dialog-text" class="rtl">
+					لطفا این کد را به کارشناس پشتیبانی همراه فیلم اعلام نمایید :
+					<br>
+					<span id="sever-side-emergency-code">1234</span>
+				</p>
+				<hr>
+				<p id="dialog-text" class="rtl">
+					سپس کدی که کارشناس همراه فیلم به شما میدهد را در اینجا وارد نمایید :
+					<br>
+					<ons-input id="enter_emergency_code" name="enter_emergency_code" class="rtl center-text" modifier="underbar" placeholder="کد را وارد نمایید" float></ons-input>
+				</p>
+				<p><ons-button onclick="submit_emergency_code()">تائید</ons-button></p>
 			</div>
 		</ons-dialog>
 	</template>
