@@ -17,7 +17,7 @@
 	
 <style>
 .rtl{direction:rtl !important;}
-div,button,.ripple,.button--material,.button--large--cta{
+div,button,.ripple,.button--material,.button--large--cta,.button{
 	font-family:"iranyekan",Tahoma !important;
 	font-size:14px;
 }
@@ -134,6 +134,23 @@ input[type=email], input[type=password] {
 				}
 		   );
 		}
+		function fromTemplate(text) {
+			var dialog = document.getElementById('dialog-alert');
+			if (dialog) {
+				$('#dialog-text').html(text);
+				dialog.show();
+			}
+			else {
+				ons.createDialog('dialog.html')
+					.then(function (dialog) {
+					$('#dialog-text').html(text);
+					dialog.show();
+				});
+			}
+		};
+		function hideDialog(id) {
+			document.getElementById(id).hide();
+		};
 	</script>
 	<!-- App -->
 	<script type="text/javascript">
@@ -141,10 +158,12 @@ input[type=email], input[type=password] {
 		
 		//ons.platform.select('android');
 		ons.platform.select('ios');
+		forcePlatformStyling('ios');
+		disableAutoStatusBarFill();
 		document.addEventListener('init', function(event) {
+			//StatusBar.hide;
 			var page = event.target;
 			modal = document.querySelector('ons-modal');
-			
 			
 			if (page.id === 'home') {
 					/*
@@ -161,18 +180,31 @@ input[type=email], input[type=password] {
 					});
 					*/
 					page.querySelector('#goto-active_user-button').onclick = function() {
-						//document.querySelector('#myNavigator').pushPage('active_user.html', {data: {title: 'home'}});
-						check_server(function(text){
-							console.log(text);
-							if(text!="1")
+						if(window.localStorage.getItem('server_udid') == null)
+						{
+							fromTemplate('لطفا قبل از هر کاری با مراجعه به بخش تنظیمات، بارکد موجود بر روی باکس همراه فیلم را اسکن نمایید.');
+						}
+						else
+						{
+							if(window.localStorage.getItem('hours') == null)
 							{
-								$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
-								modal.show({animation: "fade"});
-								setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+								fromTemplate('لطفا با مراجعه به بخش تنظیمات، تعداد ساعت مورد نظر برای ایجاد دسترسی به آرشیو فیلم را مشخص نمایید.');
 							}
 							else
-								StartScan();
-						});
+							{
+								check_server(function(text){
+									console.log(text);
+									if(text!="1")
+									{
+										$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
+										modal.show({animation: "fade"});
+										setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
+									}
+									else
+										StartScan();
+								});
+							}
+						}
 					};
 					page.querySelector('#goto-setting-button').onclick = function() {					
 						document.querySelector('#myNavigator').pushPage('setting.html', {animation: "slid"});
@@ -207,10 +239,6 @@ input[type=email], input[type=password] {
 
 						}
 						*/
-					};
-			} else if (page.id === 'active_user') {
-					page.querySelector('#return-button').onclick = function() {
-						document.querySelector('#myNavigator').pushPage('home.html', {data: {title: 'home'}});
 					};
 			}
 		});
@@ -337,13 +365,11 @@ input[type=email], input[type=password] {
 				<div class="right" style="width: 48px;max-width:11%;"><ons-back-button></ons-back-button></div>
 				<div class="center" style="width: 100%;font-size:15px;direction: rtl;text-align: right;">تنظیمات</div>
 			</ons-toolbar>
-			<div class="login-form">
-				<input type="email" class="text-input--underbar" placeholder="Email" value="">
-				<input type="password" class="text-input--underbar" placeholder="Password" value="">
-				<br><br>
-				<ons-button modifier="large" class="login-button">Log In</ons-button>
-				<br><br>
-				<ons-button modifier="quiet" class="forgot-password">Forgot password?</ons-button>
+			<div class="login-form" >
+				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">اسکن بارکد بر روی باکس</ons-button>
+				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">تعیین تعداد ساعت مجاز</ons-button>
+				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">ورود کد</ons-button>
+				<br/>
 				<ons-button id="return-button" modifier="large--cta"><ons-icon icon="fa-arrow-left" size="14px" fixed-width="true"></ons-icon> بازگشت</ons-button>
 			</div>
 		</ons-page>
@@ -359,53 +385,32 @@ input[type=email], input[type=password] {
 				<div style="margin-bottom: 32px;padding: 1px 0 0 0;direction: rtl;text-align: justify;">
 					<div class="card">
 						<!-- <h2 class="card__title" style="direction: rtl;text-align: justify;">Card Title</h2> -->
-						<div class="card__content" style="direction: rtl;text-align: justify;">تلفن تماس : <br/> 09155157295</div>
+						<div class="card__content" style="direction: rtl;text-align: center;">تلفن تماس : <div style="margin-top:14px;"></div><a href="tel:09155157295" style="color:black;text-decoration:none;"> 09155157295</a></div>
 					</div>
 				</div> 
 				<!-- <p>تلفن تماس : <br/> 09155157295</p> -->
 				<!-- <br> -->
 				<!-- <ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;"><ons-icon icon="ion-navicon" size="40px" fixed-width="true"></ons-icon>وضعیت اضطراری</ons-button> -->
-				<ons-button id="emergency-button" modifier="large--cta" style="background-color: #4CAF50; color: #ffffff;">وضعیت اضطراری</ons-button>
-				<br>
+				<div style="margin-top: 41px;width: 100%;height: 1px;"></div>
 				<ons-button id="return-button" modifier="large--cta"><ons-icon icon="fa-arrow-left" size="14px" fixed-width="true"></ons-icon> بازگشت</ons-button>
 			</div>
 		</ons-page>
 	</template>
 
-	<template id="active_user.html">
-		<ons-page id="active_user">
-			<ons-toolbar>
-				<div class="right" style="width: 48px;max-width:11%;"><ons-back-button></ons-back-button></div>
-				<div class="center" style="width: 100%;font-size:15px;direction: rtl;text-align: right;">فعال سازی کارت اشتراک</div>
-			</ons-toolbar>
-			<div class="login-form">
-				<ons-button id="return-button22" modifier="large--cta">اسکن کارت</ons-button>
-				<br><br>
-				<ons-button id="return-button" modifier="large--cta"><ons-icon icon="fa-arrow-left" size="14px" fixed-width="true"></ons-icon> بازگشت</ons-button>
-			</div>
-		</ons-page>
-	</template>
+
 	<ons-modal direction="up">
 		<div style="text-align: center">
-			<p id="modal-text" class="rtl">
-			</p>
+			<p id="modal-text" class="rtl"></p>
 		</div>
 	</ons-modal>
-	<!--
-	<div class="modal" id="need_wifi">
-		<div class="modal__content rtl">
-			لطفا به شبکه WIFI اتوبوس متصل شوید.
-		</div>
-	</div>
-	-->
-	<!-- 
-	<div class="modal" id="need_wifi">
-		<div class="modal__content rtl">
-			لطفا به شبکه WIFI اتوبوس متصل شوید.
-		</div>
-	</div> 
-	-->
-
+	<template id="dialog.html">
+		<ons-dialog id="dialog-alert">
+			<div style="text-align: center; padding: 10px;">
+				<p id="dialog-text" class="rtl"><p>
+				<p><ons-button onclick="hideDialog('dialog-alert')">تائید</ons-button></p>
+			</div>
+		</ons-dialog>
+	</template>
 </body>
 </html>
   
