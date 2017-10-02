@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>بسم الله الرحمن الرحیم</title>
+<script>
+alert("99");
+</script>
 
 	<!-- Required libs -->
 	<script src="js/jquery-1.11.3.min.js"></script>
@@ -19,7 +22,9 @@
 </style>
 	<script src="onsenui/js/onsenui.min.js"></script>
 	<script>
+			alert("0");
 		function init() {		
+			alert("1");
 			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
 			document.addEventListener("deviceready", onDeviceReady, false);
 		}
@@ -40,6 +45,9 @@
 </head>
 <body onload="init();" >
 0000000
+<script>
+alert("2");
+</script>
 	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
 
 	<template id="home.html">
