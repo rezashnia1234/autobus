@@ -8,39 +8,33 @@ alert("99");
 </script>
 
 	<!-- Required libs -->
-	<script src="js/jquery-1.11.3.min.js"></script>
-	<script src="js/console.log.js"></script>
+	<!-- <script src="js/jquery-1.11.3.min.js"></script> -->
+	<!-- <script src="js/console.log.js"></script> -->
     <!--<script src="phonegap.js"></script>-->
 
 	<link rel="stylesheet" href="onsenui/css/onsenui.min.css">
 	<link rel="stylesheet" href="onsenui/css/onsen-css-components.min.css">
 	<link rel="stylesheet" href="css/fontiran.css">
-	
-<style>
-
-
-</style>
 	<script src="onsenui/js/onsenui.min.js"></script>
 	<script>
-			alert("0");
+		alert("0");
 		function init() {		
 			alert("1");
 			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
-			document.addEventListener("deviceready", onDeviceReady, false);
 		}
-		function onDeviceReady() {
-			var networkState = navigator.connection.type;
-			//UserAgent.set("A786-110-A");
-			//if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
-			//	document.addEventListener("backbutton", go_back_index, false);
-			//}
-			var networkState = navigator.connection.type;
-			if (networkState == Connection.NONE) {
-				need_internet();
+
+		//ons.platform.select('ios');
+		//ons.forcePlatformStyling('ios');
+		//ons.disableAutoStatusBarFill();
+		//ons.disableAutoStyling();
+		
+		document.addEventListener('init', function(event) {
+			var page = event.target;
+			if(page.id === 'home')
+			{
+				alert("8888888");
 			}
-		}
-
-
+		});
 	</script>
 </head>
 <body onload="init();" >
