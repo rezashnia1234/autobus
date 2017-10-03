@@ -43,6 +43,7 @@ ons.ready(function(){
 		var page = event.target;
 		if(page.id === 'helloworld-page')
 		{
+			alert("2");
 			page.querySelector('ons-toolbar .center').innerHTML = 'My app2';
 			page.querySelector('ons-button').onclick = function() {
 			  ons.notification.alert('Hello world!');
