@@ -23,11 +23,26 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300italic,300,500,400italic,500italic,700,700italic' rel='stylesheet' type='text/css'>
 	<script>
-		alert("1");
+		function init() {		
+			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+		function onDeviceReady() {
+			var networkState = navigator.connection.type;
+			//UserAgent.set("A786-110-A");
+			//if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
+			//	document.addEventListener("backbutton", go_back_index, false);
+			//}
+			var networkState = navigator.connection.type;
+			if (networkState == Connection.NONE) {
+				
+			}
+		}
+
 	</script>
     </head>
 
-    <body>
+	<body onload="init();" >
       <ons-page>
   <ons-toolbar>
     <div class="left">
