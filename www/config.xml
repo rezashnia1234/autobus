@@ -146,6 +146,5 @@
 	<allow-navigation href="*" />
 	<allow-intent href="http://*/*" />
 	<allow-intent href="https://*/*" />
-	<allow-navigation href="*" />
 	
 </widget>

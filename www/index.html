@@ -1,68 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>بسم الله الرحمن الرحیم</title>
-<script>
-alert("99");
-</script>
 
-	<!-- Required libs -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>OnsenUI Tutorial</title>
 
-    <!--<script src="phonegap.js"></script>-->
+      
 
+      <!-- Required libs -->
+      <script src=""></script>
+      
+  <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
+
+      <!-- Autostyling -->
+      <script>
+		alert("1");
+        ons.platform.select('ios');
+      </script>
+
+      <!-- App -->
+      <script type="text/javascript">
+        alert("2");
+          
+        
+      </script>
+
+      <!-- Stylesheet -->
+      
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-  <script src="js/console.log.js"></script>
-	<script>
-		alert("0");
-		function init() {		
-			alert("1");
-			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
-			console.log(window.location.href);
-			console.log(JSON.stringify(window.location));
-		}
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.css">
+      <link href='https://fonts.googleapis.com/css?family=Roboto:400,300italic,300,500,400italic,500italic,700,700italic' rel='stylesheet' type='text/css'>
+    </head>
 
-		//ons.platform.select('ios');
-		//ons.forcePlatformStyling('ios');
-		//ons.disableAutoStatusBarFill();
-		//ons.disableAutoStyling();
-		
-		document.addEventListener('init', function(event) {
-			var page = event.target;
-			if(page.id === 'home')
-			{
-				alert("8888888");
-			}
-		});
-	</script>
-</head>
-<body onload="init();" >
-0000000
-<script>
-alert("2");
-</script>
-	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
+    <body>
+      <ons-page>
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button>
+        <ons-icon icon="md-menu"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">Buttons</div>
+    <div class="right">
+      <ons-toolbar-button>Button</ons-toolbar-button>
+    </div>
+  </ons-toolbar>
 
-	<template id="home.html">
-		<ons-page id="home" on-device-backbutton="go_back_index();">
-			<ons-toolbar>
-				<div class="center" style="font-size:15px;direction: rtl;text-align: right;padding-right:10px;">نرم افزار مدیریت همراه فیلم - ویژه رانندگان</div>
-			</ons-toolbar>
-			<div class="login-form">
-				<p>لطفا گزینه مورد نظر خود را انتخاب نمایید :</p>
-				<br>
-				<ons-button id="goto-active_user-button" modifier="large--cta">فعال سازی کارت اشتراک</ons-button>
-				<br>
-				<ons-button id="goto-setting-button" modifier="large--cta">تنظیمات</ons-button>
-				<br>
-				<ons-button id="goto-contact-button" modifier="large--cta">تماس با پشتیبانی</ons-button>
-			</div>
-		</ons-page>
-	</template>
+  <section style="padding: 8px">
+    <ons-button modifier="quiet">quiet</ons-button>
+    <ons-button>Default</ons-button>
+    <p></p>
+    <ons-button modifier="large--quiet">large--quiet / material--flat</ons-button>
+    <p></p>
+    <ons-button modifier="large">large</ons-button>
+  </section>
 
-</body>
-</html>
+  <section style="padding: 8px">
+    <p></p><br><br>
+    <ons-button modifier="quiet" disabled="true">quiet</ons-button>
+    <ons-button disabled="true">Default</ons-button>
+    <p></p>
+    <ons-button modifier="large--quiet" disabled="true">large--quiet / material--flat</ons-button>
+    <p></p>
+    <ons-button modifier="large" disabled="true">large</ons-button>
+  </section>
+
+</ons-page>
+    </body>
+    </html>
   
