@@ -25,10 +25,10 @@
 		//ons.forcePlatformStyling('ios');
 		//ons.disableAutoStatusBarFill();
 		//ons.disableAutoStyling();
-		
+		/*
 		document.addEventListener('init', function(event) {
 		  var page = event.target;
-		  alert("1");
+		  
 		  if (page.matches('#helloworld-page')) {
 			page.querySelector('ons-toolbar .center').innerHTML = 'My app2';
 			page.querySelector('ons-button').onclick = function() {
@@ -36,6 +36,20 @@
 			};
 		  }
 		});
+		*/
+ons.ready(function(){
+	alert("1");
+	document.addEventListener('init', function(event) {
+		var page = event.target;
+		if(page.id === 'helloworld-page')
+		{
+			page.querySelector('ons-toolbar .center').innerHTML = 'My app2';
+			page.querySelector('ons-button').onclick = function() {
+			  ons.notification.alert('Hello world!');
+			};
+		}
+    }); 
+});
 	</script>
 </head>
 <body onload="init2();">
