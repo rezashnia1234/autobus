@@ -3,9 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>بسم الله الرحمن الرحیم</title>
-<script>
-alert("99");
-</script>
+
 
 	<!-- Required libs -->
 
@@ -15,11 +13,9 @@ alert("99");
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-  <script src="js/console.log.js"></script>
+  <!-- <script src="js/console.log.js"></script> -->
 	<script>
-		alert("0");
-		function init() {		
-			alert("1");
+		function init2() {		
 			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
 			console.log(window.location.href);
 			console.log(JSON.stringify(window.location));
@@ -30,17 +26,22 @@ alert("99");
 		//ons.disableAutoStatusBarFill();
 		//ons.disableAutoStyling();
 		
-		document.addEventListener('init', function(event) {
-			var page = event.target;
-			if(page.id === 'home')
-			{
-				alert("8888888");
-			}
-		});
+
+ons.ready(function(){
+	alert("1");
+	document.addEventListener('init', function(event) {
+		var page = event.target;
+		if(page.id === 'home')
+		{
+			alert("8888888");
+		}
+	});
+});
 	</script>
 </head>
-<body onload="init();" >
+<body onload="init2();" >
 0000000
+
 	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
 
 	<template id="home.html">
