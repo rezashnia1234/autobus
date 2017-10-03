@@ -39,40 +39,30 @@ alert("99");
 		});
 	</script>
 </head>
-	<body onload="init();" >
-      <ons-page>
-  <ons-toolbar>
-    <div class="left">
-      <ons-toolbar-button>
-        <ons-icon icon="md-menu"></ons-icon>
-      </ons-toolbar-button>
-    </div>
-    <div class="center">Buttons</div>
-    <div class="right">
-      <ons-toolbar-button>Button</ons-toolbar-button>
-    </div>
-  </ons-toolbar>
+<body onload="init();" >
+0000000
+<script>
+alert("2");
+</script>
+	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
 
-  <section style="padding: 8px">
-    <ons-button modifier="quiet">quiet</ons-button>
-    <ons-button>Default</ons-button>
-    <p></p>
-    <ons-button modifier="large--quiet">large--quiet / material--flat</ons-button>
-    <p></p>
-    <ons-button modifier="large">large</ons-button>
-  </section>
+	<template id="home.html">
+		<ons-page id="home" on-device-backbutton="go_back_index();">
+			<ons-toolbar>
+				<div class="center" style="font-size:15px;direction: rtl;text-align: right;padding-right:10px;">نرم افزار مدیریت همراه فیلم - ویژه رانندگان</div>
+			</ons-toolbar>
+			<div class="login-form">
+				<p>لطفا گزینه مورد نظر خود را انتخاب نمایید :</p>
+				<br>
+				<ons-button id="goto-active_user-button" modifier="large--cta">فعال سازی کارت اشتراک</ons-button>
+				<br>
+				<ons-button id="goto-setting-button" modifier="large--cta">تنظیمات</ons-button>
+				<br>
+				<ons-button id="goto-contact-button" modifier="large--cta">تماس با پشتیبانی</ons-button>
+			</div>
+		</ons-page>
+	</template>
 
-  <section style="padding: 8px">
-    <p></p><br><br>
-    <ons-button modifier="quiet" disabled="true">quiet</ons-button>
-    <ons-button disabled="true">Default</ons-button>
-    <p></p>
-    <ons-button modifier="large--quiet" disabled="true">large--quiet / material--flat</ons-button>
-    <p></p>
-    <ons-button modifier="large" disabled="true">large</ons-button>
-  </section>
-
-</ons-page>
-    </body>
-    </html>
+</body>
+</html>
   

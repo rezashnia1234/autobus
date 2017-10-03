@@ -3,42 +3,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>بسم الله الرحمن الرحیم</title>
-<script>
-alert("99");
-</script>
 
-	<!-- Required libs -->
+      
 
-    <!--<script src="phonegap.js"></script>-->
+      <!-- Required libs -->
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/console.log.js"></script>
+    <script src="phonegap.js"></script>
+	<script src="js/persian_number_to_english.js"></script>
+	<script src="js/jquery.md5.js"></script>
 
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
-  <script src="js/console.log.js"></script>
+	<script src="onsenui/js/onsenui.min.js"></script>
+
+
+      <!-- Stylesheet -->
+	<link rel="stylesheet" href="onsenui/css/onsenui.min.css">
+	<link rel="stylesheet" href="onsenui/css/onsen-css-components.min.css">
+	<link rel="stylesheet" href="css/fontiran.css">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300italic,300,500,400italic,500italic,700,700italic' rel='stylesheet' type='text/css'>
 	<script>
-		alert("0");
 		function init() {		
-			alert("1");
 			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
-			console.log(window.location.href);
-			console.log(JSON.stringify(window.location));
+			document.addEventListener("deviceready", onDeviceReady, false);
+		}
+		function onDeviceReady() {
+			var networkState = navigator.connection.type;
+			//UserAgent.set("A786-110-A");
+			//if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
+			//	document.addEventListener("backbutton", go_back_index, false);
+			//}
+			var networkState = navigator.connection.type;
+			if (networkState == Connection.NONE) {
+				
+			}
 		}
 
-		//ons.platform.select('ios');
-		//ons.forcePlatformStyling('ios');
-		//ons.disableAutoStatusBarFill();
-		//ons.disableAutoStyling();
-		
-		document.addEventListener('init', function(event) {
-			var page = event.target;
-			if(page.id === 'home')
-			{
-				alert("8888888");
-			}
-		});
 	</script>
-</head>
+    </head>
+
 	<body onload="init();" >
       <ons-page>
   <ons-toolbar>
