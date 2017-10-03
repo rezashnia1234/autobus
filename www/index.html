@@ -30,6 +30,7 @@
 ons.ready(function(){
 	alert("1");
 	document.addEventListener('init', function(event) {
+			alert("999");
 		var page = event.target;
 		if(page.id === 'home')
 		{
@@ -45,7 +46,7 @@ ons.ready(function(){
 	<ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
 
 	<template id="home.html">
-		<ons-page id="home" on-device-backbutton="go_back_index();">
+		<ons-page id="home" >
 			<ons-toolbar>
 				<div class="center" style="font-size:15px;direction: rtl;text-align: right;padding-right:10px;">نرم افزار مدیریت همراه فیلم - ویژه رانندگان</div>
 			</ons-toolbar>
