@@ -14,7 +14,7 @@
   <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
   <!-- <script src="js/console.log.js"></script> -->
 	<script>
-		function init() {		
+		function init2() {		
 			//alert("1");
 			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
 			console.log(window.location.href);
@@ -28,8 +28,9 @@
 		
 		document.addEventListener('init', function(event) {
 		  var page = event.target;
+		  alert("1");
 		  if (page.matches('#helloworld-page')) {
-			page.querySelector('ons-toolbar .center').innerHTML = 'My app';
+			page.querySelector('ons-toolbar .center').innerHTML = 'My app2';
 			page.querySelector('ons-button').onclick = function() {
 			  ons.notification.alert('Hello world!');
 			};
@@ -37,7 +38,7 @@
 		});
 	</script>
 </head>
-<body onload="init();">
+<body onload="init2();">
 	<ons-page id="helloworld-page">
 	  <ons-toolbar>
 		<div class="center"></div>
