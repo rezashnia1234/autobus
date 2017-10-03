@@ -88,6 +88,8 @@
 		</array>
 	</gap:config-file>
 
+	<plugin spec="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview" source="git" platform="ios"  />
+	
     <!-- Define app icon      -->
     <icon src="images/splash/icon.png" />
     <icon src="images/splash.png" platform="ios" />
