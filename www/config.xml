@@ -140,5 +140,4 @@
 	<access origin="*" />
 	<allow-intent href="*" />
 	<allow-navigation href="*" />
-	<meta http-equiv="Content-Security-Policy" content="default-src *;" />
 </widget>
