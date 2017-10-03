@@ -30,13 +30,17 @@ alert("99");
 		//ons.disableAutoStatusBarFill();
 		//ons.disableAutoStyling();
 		
-		document.addEventListener('init', function(event) {
-			var page = event.target;
-			if(page.id === 'home')
-			{
-				alert("8888888");
-			}
-		});
+
+ons.ready(function(){
+	alert("1");
+	document.addEventListener('init', function(event) {
+		var page = event.target;
+		if(page.id === 'home')
+		{
+			alert("8888888");
+		}
+	});
+});
 	</script>
 </head>
 <body onload="init();" >
