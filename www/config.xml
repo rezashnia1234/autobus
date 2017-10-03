@@ -144,7 +144,8 @@
 	<access origin="*"/> <!-- allow local pages -->
 	<!-- <allow-navigation href="http://app.postermovement.com/*" /> -->
 	<allow-navigation href="*" />
+	<allow-intent href="http://*/*" />
+	<allow-intent href="https://*/*" />
+	<allow-navigation href="*" />
 	
-	
-
 </widget>
