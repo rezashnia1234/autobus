@@ -84,6 +84,12 @@
 		</array>
 	</gap:config-file>
 
+	
+	<plugin name="cordova-plugin-crosswalk-webview" platform="android">
+		<param name="XWALK_MODE" value="lite">
+	</plugin>
+
+	
     <!-- Define app icon      -->
     <icon src="images/splash/icon.png" />
     <icon src="images/splash.png" platform="ios" />
