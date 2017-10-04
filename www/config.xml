@@ -85,9 +85,9 @@
 	</gap:config-file>
 
 	
-	<plugin name="cordova-plugin-crosswalk-webview" platform="android">
-		<param name="XWALK_MODE" value="lite" />
-	</plugin>
+	<plugin spec="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview.git" source="git" />
+	
+	<!--</plugin>-->
 
 	
     <!-- Define app icon      -->
