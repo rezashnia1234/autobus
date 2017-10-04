@@ -86,7 +86,7 @@
 
 	
 	<plugin name="cordova-plugin-crosswalk-webview" platform="android">
-		<param name="XWALK_MODE" value="lite">
+		<param name="XWALK_MODE" value="lite" />
 	</plugin>
 
 	
