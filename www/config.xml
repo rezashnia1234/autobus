@@ -89,7 +89,7 @@
 	<plugin spec="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview.git" source="git" platform="android" >
 		<!--<param name="XWALK_MODE" value="lite" />-->
 	</plugin>
-	<!-- <preference name="xwalkMode" value="lite" /> -->
+	<preference name="xwalkMode" value="lite" />
 
 	
     <!-- Define app icon      -->
