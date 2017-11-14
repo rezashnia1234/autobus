@@ -27,9 +27,19 @@
 
     <!-- App -->
     <script type="text/javascript">
-	ons.ready(function(){
-		alert("1");
+	ons.ready(function(event){
+		myNavigator.on('prepush', function(event) {
+			//console.log(event);
+			var page = event.currentPage; // Get current page object
+			var page2 = event.target;
+			//console.log(page);
+			//console.log(page2);
+		});
+		
 	});
+	doSomething(event){
+		console.log(event);
+	};
 	document.addEventListener('init', function(event) {
 		var page = event.target;
 		alert("2");
@@ -53,7 +63,7 @@
 <body>
 <script>
 </script>
-    <ons-navigator swipeable id="myNavigator" page="page1.html"></ons-navigator>
+    <ons-navigator swipeable id="myNavigator" page="page1.html" ons-prepop="doSomething(event)"></ons-navigator>
 
     <template id="page1.html">
         <ons-page id="page1">
