@@ -329,17 +329,17 @@ input[type=email], input[type=password] {
 								$('#modal-text').html('<ons-icon icon="md-spinner" size="28px" spin></ons-icon> <span>درحال آماده سازی...</span>');
 								modal.show({animation: "fade"});
 
-								check_server(function(text){
-									console.log(text);
-									if(text!="1")
-									{
-										$('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>');
-										modal.show({animation: "fade"});
-										setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000);
-									}
-									else
+								<!-- check_server(function(text){ -->
+									<!-- console.log(text); -->
+									<!-- if(text!="1") -->
+									<!-- { -->
+										<!-- $('#modal-text').html('<ons-icon icon="fa-wifi" size="28px"></ons-icon> <span>لطفا به شبکه WIFI اتوبوس متصل شوید.</span>'); -->
+										<!-- modal.show({animation: "fade"}); -->
+										<!-- setTimeout(function(){ modal.hide({animation: "fade"}); }, 2000); -->
+									<!-- } -->
+									<!-- else -->
 										StartScan();
-								});
+								<!-- }); -->
 							}
 						}
 					};
