@@ -115,7 +115,12 @@ input[type=email], input[type=password] {
 		   cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					if(result.text!="" && $.isNumeric(result.text))
-						add_user(result.text);
+					{
+						alert(result.format);
+						alert(result.text);
+						alert(result.text.replace('http://film.ir/?', ''));
+						add_user(result.text.replace('http://film.ir/?', ''));
+					}
 					else
 						modal.hide({animation: "fade"});
 				},
